@@ -1,11 +1,17 @@
 package br.com.library.model;
 
 public abstract class ItemBiblioteca {
-    private int codigo;
-    private String titulo;
+    private final int codigo;
+    private final String titulo;
     private boolean disponivel;
 
     public ItemBiblioteca(int codigo, String titulo) {
+        if(codigo <= 0) {
+            throw new IllegalArgumentException("Código inválido");
+        }
+        if(titulo == null || titulo.isBlank()) {
+            throw new IllegalArgumentException("Título não pode estar em branco");
+        }
         this.codigo = codigo;
         this.titulo = titulo;
         this.disponivel = true;
@@ -24,8 +30,18 @@ public abstract class ItemBiblioteca {
         return disponivel;
     }
 
-    public void setDisponivel(boolean disponivel) {
-        this.disponivel = disponivel;
+    public void registrarEmprestimo() {
+    if(!this.disponivel) {
+        throw new IllegalStateException("Erro: O item já está emprestado!");
+        }
+    this.disponivel = false;
+    }
+
+    public void registrarDevolucao() {
+    if(this.disponivel) {
+        throw new IllegalStateException("Mensagem: O item já está novamente disponível no acervo!");
+        }
+    this.disponivel = true;
     }
 
     @Override

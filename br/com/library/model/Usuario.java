@@ -1,10 +1,13 @@
 package br.com.library.model;
 
 public abstract class Usuario {
-    private String nome;
+    private final String nome;
     private int quantidadeEmprestada;
 
     public Usuario(String nome) {
+        if(nome == null || nome.isBlank()) {
+            throw new IllegalArgumentException("Nome inválido");
+        }
         this.nome = nome;
         this.quantidadeEmprestada = 0;
     }

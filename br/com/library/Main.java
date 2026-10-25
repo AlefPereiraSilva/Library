@@ -5,17 +5,7 @@ import br.com.library.service.Biblioteca;
 
 public class Main {
     public static void main(String[] args) {
-        Biblioteca biblioteca = new Biblioteca(50);
-
-        ItemBiblioteca livro1 = new Livro(101, "Crônicas de Nárnia");
-        ItemBiblioteca livro2 = new Livro(102, "O Senhor dos Anéis");
-        ItemBiblioteca revista1 = new Revista(201, "Super Interessante");
-        ItemBiblioteca revista2 = new Revista(202, "Ciência Hoje");
-
-        biblioteca.adicionarItem(livro1);
-        biblioteca.adicionarItem(livro2);
-        biblioteca.adicionarItem(revista1);
-        biblioteca.adicionarItem(revista2);
+        Biblioteca biblioteca = getBiblioteca();
 
         Usuario aluna1 = new Aluno("Sofia Tads");
         Usuario aluno2 = new Aluno("Peter Parker");
@@ -26,10 +16,14 @@ public class Main {
 
         System.out.println("\n--- Testando Empréstimo ---");
 
-        biblioteca.emprestarItem(202,aluna1);
-        biblioteca.emprestarItem(201, aluno2);
-        biblioteca.emprestarItem(101,professor2);
-        biblioteca.emprestarItem(102, professor1);
+        testarEmprestimo(biblioteca, 202, aluna1);
+        testarEmprestimo(biblioteca, 201, aluno2);
+        testarEmprestimo(biblioteca, 303, aluna1);
+        testarEmprestimo(biblioteca, 101, professor2);
+        testarEmprestimo(biblioteca, 102, professor1);
+        testarEmprestimo(biblioteca, 202, aluno2);
+        testarEmprestimo(biblioteca, 301, aluna1);
+        testarEmprestimo(biblioteca, 302, aluna1);
 
         biblioteca.listarAcervo();
 
@@ -41,14 +35,45 @@ public class Main {
         System.out.print("[" + aluno2.getNome() + "] ");
         biblioteca.devolverItem(201, aluno2, 4);
 
-        System.out.print("[" + professor1.getNome() + "] ");
-        biblioteca.devolverItem(101, professor1, 0);
-
         System.out.print("[" + professor2.getNome() + "] ");
-        biblioteca.devolverItem(102, professor2, 3);
+        biblioteca.devolverItem(101, professor2, 3);
 
+        System.out.print("[" + professor1.getNome() + "] ");
+        biblioteca.devolverItem(102, professor1, 0);
 
+        System.out.print("[" +aluna1.getNome() + "] ");
+        biblioteca.devolverItem(303, aluna1, 10);
 
+        biblioteca.listarAcervo();
 
+    }
+
+    private static void testarEmprestimo(Biblioteca biblioteca, int codigo, Usuario usuario) {
+        if(biblioteca.emprestarItem(codigo, usuario)) {
+            System.out.println("Empréstimo realizado com sucesso - " + usuario.getNome() + " tem " + usuario.getQuantidadeEmprestada() + " item(ns) em empréstimo");
+        } else {
+            System.out.println("Falha no empréstimo - " + usuario.getNome()  + " já está com limite de itens emprestados ou item está indisponível no momento");
+        }
+    }
+
+    private static Biblioteca getBiblioteca() {
+        Biblioteca biblioteca = new Biblioteca(50);
+
+        ItemBiblioteca livro1 = new Livro(101, "Crônicas de Nárnia");
+        ItemBiblioteca livro2 = new Livro(102, "O Senhor dos Anéis");
+        ItemBiblioteca revista1 = new Revista(201, "Super Interessante");
+        ItemBiblioteca revista2 = new Revista(202, "Ciência Hoje");
+        ItemBiblioteca dvd1 = new DVD(301,"Homem-Aranha");
+        ItemBiblioteca dvd2 = new DVD(302,"Viagem aos PLanetas e Além");
+        ItemBiblioteca dvd3 = new DVD(303,"12 Macacos");
+
+        biblioteca.adicionarItem(livro1);
+        biblioteca.adicionarItem(livro2);
+        biblioteca.adicionarItem(revista1);
+        biblioteca.adicionarItem(revista2);
+        biblioteca.adicionarItem(dvd1);
+        biblioteca.adicionarItem(dvd2);
+        biblioteca.adicionarItem(dvd3);
+        return biblioteca;
     }
 }
