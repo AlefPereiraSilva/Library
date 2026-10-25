@@ -34,7 +34,7 @@ public class Biblioteca {
                 if(acervo[i].isDisponivel() && usuario.podeEmprestar()) {
                     acervo[i].setDisponivel(false);
                     usuario.incrementarEmprestimo();
-                    System.out.println("Empréstimo efetuado com sucesso! Prazo para devolução: " + acervo[i].calcularPrazo() + "dias.");
+                    System.out.println("Empréstimo efetuado com sucesso! Prazo para devolução: " + acervo[i].calcularPrazo() + " dias.");
                     return true;
                 }
                 System.out.println("Erro: Item indisponível ou Usuário estourou o limite de empréstimo.");
